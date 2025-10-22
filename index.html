@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Counter</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      width: 420px;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .container:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #2f3640;
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #dcdde1;
+      border-radius: 10px;
+      outline: none;
+      resize: none;
+      transition: all 0.2s ease;
+    }
+
+    textarea:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+
+    .counter {
+      margin-top: 12px;
+      font-size: 15px;
+      color: #444;
+    }
+
+    .counter span {
+      font-weight: 600;
+    }
+
+    .warning {
+      margin-top: 8px;
+      color: #e84118;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* Counter color change when nearing limit */
+    .near-limit {
+      color: #e67e22;
+    }
+
+    .at-limit {
+      color: #e84118;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Message Box</h2>
+    <p>Maximum 200 characters allowed</p>
+    <textarea id="message" maxlength="200" placeholder="Type your message here..."></textarea>
+    <div class="counter" id="charCount"><span>0</span> / 200 characters</div>
+    <div class="warning" id="warningMsg">⚠️ You’ve reached the character limit!</div>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount').querySelector('span');
+    const warningMsg = document.getElementById('warningMsg');
+    const counterDiv = document.getElementById('charCount');
+    const maxChars = 200;
+
+    textarea.addEventListener('input', () => {
+      const currentLength = textarea.value.length;
+      charCount.textContent = currentLength;
+
+      // Change counter color based on how close the user is to the limit
+      counterDiv.classList.remove('near-limit', 'at-limit');
+      if (currentLength > 180 && currentLength < maxChars) {
+        counterDiv.classList.add('near-limit');
+      } else if (currentLength >= maxChars) {
+        counterDiv.classList.add('at-limit');
+      }
+
+      // Show/hide warning message
+      if (currentLength >= maxChars) {
+        warningMsg.style.display = 'block';
+      } else {
+        warningMsg.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
